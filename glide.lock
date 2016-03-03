@@ -1,0 +1,8 @@
+hash: f1460e4eb50f697ef6400dcf981052fa6a6710bf35ada33df9ebd941d3e68edf
+updated: 2016-03-03T14:26:59.359987516Z
+imports:
+- name: github.com/hypebeast/go-osc
+  version: bd039f804aa07d253d8334119d76d8fdd4c2986d
+  subpackages:
+  - osc
+devImports: []

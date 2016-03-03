@@ -1,0 +1,5 @@
+package: .
+import:
+- package: github.com/hypebeast/go-osc
+  subpackages:
+  - osc
