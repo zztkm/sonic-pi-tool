@@ -1,8 +1,8 @@
-build: sonic-pi-send
+build: sonic-pi-pipe
 	@echo All done!
 
-sonic-pi-send:
-	go build -o build/sonic-pi-send src/sonic_pi_send.go
+sonic-pi-pipe:
+	go build -o build/sonic-pi-pipe src/sonic_pi_pipe.go
 
 test:
 	go test ./test/...
