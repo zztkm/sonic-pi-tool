@@ -8,6 +8,8 @@ brew install go glide
 # Install the deps
 glide install
 
-# Run the tests
-make test
+make test       # Run the tests
+make build      # Build the binaries
+make clean      # Clean the build dir
+make clean-deps # Clean the vendor dir
 ```

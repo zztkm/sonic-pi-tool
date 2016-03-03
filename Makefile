@@ -7,4 +7,10 @@ sonic-pi-send:
 test:
 	go test ./test/...
 
-.PHONY: clean test build
+clean:
+	rm -r build
+
+clean-deps:
+	rm -r vendor
+
+.PHONY: clean clean-deps test build
