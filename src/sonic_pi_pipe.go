@@ -6,14 +6,15 @@ import (
 	"os"
 )
 
-// const RUN_ADDRESS = "/run-code"
-// const STOP_ADDRESS = "/stop-all-jobs"
-
 func main() {
 	data, _ := ioutil.ReadAll(os.Stdin)
 	pi_code := string(data)
+	send(pi_code)
+}
+
+func send(code string) {
 	message := osc.NewMessage("/run-code")
 	message.Append("SONIC_PI_SEND")
-	message.Append(pi_code)
+	message.Append(code)
 	osc.NewClient("localhost", 4557).Send(message)
 }
