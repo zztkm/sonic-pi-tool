@@ -14,7 +14,7 @@ func main() {
 
 func send(code string) {
 	message := osc.NewMessage("/run-code")
-	message.Append("SONIC_PI_SEND")
+	message.Append("SONIC_PI_PIPE")
 	message.Append(code)
 	osc.NewClient("localhost", 4557).Send(message)
 }
