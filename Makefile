@@ -2,7 +2,7 @@ build: sonic-pi-pipe
 	@echo All done!
 
 sonic-pi-pipe:
-	go build -o build/sonic-pi-pipe src/sonic_pi_pipe.go
+	go build -o build/sonic-pi-pipe cmd/sonic-pi-pipe/main.go
 
 test:
 	go test ./test/...
