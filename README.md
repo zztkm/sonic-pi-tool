@@ -3,15 +3,15 @@ Sonic Pi Tools
 
 ## sonic-pi-pipe
 
-This tool allows you to control Sonic Pi from the command line. To do so,
-simply boot Sonic Pi and pipe code into `sonic-pi-pipe`.
+`sonic-pi-pipe` allows you to control Sonic Pi from the command line.
 
 ```sh
 # Install it
 go get github.com/lpil/sonic-pi-tools/cmd/sonic-pi-pipe
 
-sonic-pi-pipe check            # Check the Sonic Pi server is up
-echo "play 64" | sonic-pi-pipe # Send code to Sonic Pi
+sonic-pi-pipe check             # Check the Sonic Pi server is up
+echo "play 64" | sonic-pi-pipe  # Send code to Sonic Pi
+sonic-pi-pipe stop              # Stop any running jobs
 ```
 
 It's ideal for use with [sonicpi.vim][sonicpi.vim].

@@ -11,8 +11,9 @@ import (
 
 const port = 4557
 const usage = `sonic-pi-pipe commands:
-	[No arguments]: Send piped code to the Sonic Pi server
-	check:          Check if the Sonic Pi server is listening
+	[No args]: Send piped code to the Sonic Pi server
+	check:     Check if the Sonic Pi server is listening
+	stop:      Stop any running Sonic Pi jobs
 `
 
 func main() {
@@ -25,7 +26,9 @@ func main() {
 
 	switch args[0] {
 	case "check":
-		check_server_listening()
+		check_sonic_pi_listening()
+	case "stop":
+		send_sonic_pi_stop()
 	default:
 		fmt.Print(usage)
 		os.Exit(1)
@@ -41,7 +44,13 @@ func pipe_to_sonic_pi() {
 	osc.NewClient("localhost", port).Send(message)
 }
 
-func check_server_listening() {
+func send_sonic_pi_stop() {
+	message := osc.NewMessage("/stop-all-jobs")
+	message.Append("SONIC_PI_PIPE")
+	osc.NewClient("localhost", port).Send(message)
+}
+
+func check_sonic_pi_listening() {
 	p := strconv.Itoa(port)
 	address, _ := net.ResolveUDPAddr("udp", ":" + p)
 	_, err := net.ListenUDP("udp", address)
