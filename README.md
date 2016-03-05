@@ -10,9 +10,8 @@ simply boot Sonic Pi and pipe code into `sonic-pi-pipe`.
 # Install it
 go get github.com/lpil/sonic-pi-tools/cmd/sonic-pi-pipe
 
-# Use it
-echo "play 64" | sonic-pi-pipe
-# => ding!
+sonic-pi-pipe check            # Check the Sonic Pi server is up
+echo "play 64" | sonic-pi-pipe # Send code to Sonic Pi
 ```
 
 It's ideal for use with [sonicpi.vim][sonicpi.vim].
