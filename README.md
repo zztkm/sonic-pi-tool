@@ -18,6 +18,24 @@ It's ideal for use with [sonicpi.vim][sonicpi.vim].
 [sonicpi.vim]: https://github.com/dermusikman/sonicpi.vim
 
 
+## sonic-pi-logs
+
+`sonic-pi-logs` gives you a way of viewing Sonic Pi logs from the command
+line.
+
+```sh
+# Install it
+go get github.com/lpil/sonic-pi-tools/cmd/sonic-pi-logs
+
+# Run it
+sonic-pi-logs
+```
+
+It works by listening on the same port that the Sonic Pi GUI uses, so it
+cannot be used while the GUI is running. Instead it is intended to be used
+at the same time as the Sonic Pi server alone.
+
+
 ## Developer instructions
 
 ```sh
