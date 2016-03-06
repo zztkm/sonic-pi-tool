@@ -3,3 +3,4 @@ import:
 - package: github.com/hypebeast/go-osc
   subpackages:
   - osc
+- package: github.com/fatih/color

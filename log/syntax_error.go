@@ -2,9 +2,10 @@ package log
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 )
 
 func SyntaxError(arguments []interface{}) string {
-	position := arguments[1]
-	return fmt.Sprintf("\nSyntax Error: %s\n\n", position)
+	msg := fmt.Sprintf("\nSyntax Error: %s\n\n", arguments[1])
+	return color.RedString(msg)
 }
