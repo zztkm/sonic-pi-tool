@@ -1,12 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"github.com/hypebeast/go-osc/osc"
 	"io/ioutil"
-	"strconv"
-	"os"
-	"fmt"
 	"net"
+	"os"
+	"strconv"
 )
 
 const port = 4557
@@ -50,9 +50,10 @@ func send_sonic_pi_stop() {
 	osc.NewClient("localhost", port).Send(message)
 }
 
+// Send gui-heartbeat message?
 func check_sonic_pi_listening() {
 	p := strconv.Itoa(port)
-	address, _ := net.ResolveUDPAddr("udp", ":" + p)
+	address, _ := net.ResolveUDPAddr("udp", ":"+p)
 	_, err := net.ListenUDP("udp", address)
 	if err == nil {
 		fmt.Println("Error: Sonic Pi not listening on " + p)

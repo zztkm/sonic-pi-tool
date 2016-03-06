@@ -18,9 +18,11 @@ func main() {
 	server.Handle("/syntax_error", func(msg *osc.Message) {
 		fmt.Print(log.SyntaxError(msg.Arguments))
 	})
+	server.Handle("/error", func(msg *osc.Message) {
+		fmt.Print(log.Error(msg.Arguments))
+	})
 
 	// server.Handle("*", func(msg *osc.Message) {
-	// 	fmt.Println(len(msg.Arguments))
 	// 	fmt.Println(msg)
 	// })
 
