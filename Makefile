@@ -1,8 +1,11 @@
-build: sonic-pi-pipe
+build: sonic-pi-pipe sonic-pi-logs
 	@echo All done!
 
 sonic-pi-pipe:
 	go build -o build/sonic-pi-pipe cmd/sonic-pi-pipe/main.go
+
+sonic-pi-logs:
+	go build -o build/sonic-pi-logs cmd/sonic-pi-logs/main.go
 
 test:
 	go test ./test/...
