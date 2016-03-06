@@ -3,30 +3,26 @@ package main
 import (
 	"fmt"
 	"github.com/hypebeast/go-osc/osc"
+	"github.com/lpil/sonic-pi-tools/log"
 )
 
 func main() {
 	server := &osc.Server{Addr: "localhost:4558"}
 
-	server.Handle("/info", handle_info)
-	server.Handle("/multi_message", handle_multi_message)
-	// server.Handle("*", handle)
+	server.Handle("/info", func(msg *osc.Message) {
+		fmt.Print(log.Info(msg.Arguments))
+	})
+	server.Handle("/multi_message", func(msg *osc.Message) {
+		fmt.Print(log.MultiMessage(msg.Arguments))
+	})
+	server.Handle("/syntax_error", func(msg *osc.Message) {
+		fmt.Print(log.SyntaxError(msg.Arguments))
+	})
+
+	// server.Handle("*", func(msg *osc.Message) {
+	// 	fmt.Println(len(msg.Arguments))
+	// 	fmt.Println(msg)
+	// })
 
 	server.ListenAndServe()
-}
-
-func handle_info(msg *osc.Message) {
-	fmt.Println("=>", msg.Arguments[0])
-}
-
-func handle_multi_message(msg *osc.Message) {
-	run := msg.Arguments[0]
-	time := msg.Arguments[2]
-	info := msg.Arguments[5]
-	fmt.Printf("\n[Run %d, Time %s]\n", run, time)
-	fmt.Printf(" └ %s\n", info)
-}
-
-func handle(msg *osc.Message) {
-	fmt.Println(msg)
 }
