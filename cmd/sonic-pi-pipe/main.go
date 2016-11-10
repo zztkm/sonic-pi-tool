@@ -20,38 +20,38 @@ func main() {
 	args := os.Args[1:]
 
 	if len(args) == 0 {
-		pipe_to_sonic_pi()
+		pipeToSonicPi()
 		os.Exit(0)
 	}
 
 	switch args[0] {
 	case "check":
-		check_sonic_pi_listening()
+		checkSonicPiListening()
 	case "stop":
-		send_sonic_pi_stop()
+		sendSonicPiStop()
 	default:
 		fmt.Print(usage)
 		os.Exit(1)
 	}
 }
 
-func pipe_to_sonic_pi() {
+func pipeToSonicPi() {
 	data, _ := ioutil.ReadAll(os.Stdin)
-	pi_code := string(data)
+	code := string(data)
 	message := osc.NewMessage("/run-code")
 	message.Append("SONIC_PI_PIPE")
-	message.Append(pi_code)
+	message.Append(code)
 	osc.NewClient("localhost", port).Send(message)
 }
 
-func send_sonic_pi_stop() {
+func sendSonicPiStop() {
 	message := osc.NewMessage("/stop-all-jobs")
 	message.Append("SONIC_PI_PIPE")
 	osc.NewClient("localhost", port).Send(message)
 }
 
 // Send gui-heartbeat message?
-func check_sonic_pi_listening() {
+func checkSonicPiListening() {
 	p := strconv.Itoa(port)
 	address, _ := net.ResolveUDPAddr("udp", ":"+p)
 	_, err := net.ListenUDP("udp", address)
