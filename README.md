@@ -35,6 +35,7 @@ It works by listening on the same port that the Sonic Pi GUI uses, so it
 cannot be used while the GUI is running. Instead it is intended to be used
 at the same time as the Sonic Pi server alone.
 
+*Note:* You can run the Sonic Pi server without GUI by executing the *SONIC_PI_PATH/app/server/bin/sonic-pi-server.rb* script.
 
 ## Developer instructions
 
