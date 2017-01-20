@@ -28,7 +28,23 @@ pub fn eval_file(path: String) {
     }
 }
 
+/// Check if something is listening on the Sonic Pi server's port.
+/// If something is we can probably assume that it's the Sonic Pi Server,
+/// so siginify this to the user.
+///
+pub fn check() {
+    if server::server_port_in_use() {
+        println!("Sonic Pi server listening on port 4557");
+        process::exit(0);
+    } else {
+        println!("Sonic Pi server NOT listening on port 4557");
+        process::exit(1);
+    }
+}
 
+
+/// Instuct the Sonic Pi server to stop playing.
+///
 pub fn stop() {
     server::stop_all_jobs();
 }

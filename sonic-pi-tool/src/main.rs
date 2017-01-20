@@ -10,6 +10,9 @@ fn main() {
         .setting(AppSettings::SubcommandRequired)
         .version(crate_version!());
 
+    let check = SubCommand::with_name("check")
+        .about("Check if the Sonic Pi server is listening on port 4557");
+
     let eval_stdin = SubCommand::with_name("eval-stdin")
         .about("Reads Sonic Pi code from stdin and sends it to the server");
 
@@ -24,12 +27,14 @@ fn main() {
         .about("Stops all currently playing music on the server");
 
     let matches = cli_app.subcommand(stop)
+        .subcommand(check)
         .subcommand(eval_stdin)
         .subcommand(eval_file)
         .get_matches();
 
     match matches.subcommand_name() {
         Some("stop") => lib::stop(),
+        Some("check") => lib::check(),
         Some("eval-stdin") => lib::eval_stdin(),
         Some("eval-file") => do_eval_file(matches),
         _ => panic!("This should be unreachable."),
@@ -43,5 +48,4 @@ fn do_eval_file(matches: clap::ArgMatches) {
         .unwrap()
         .to_string();
     lib::eval_file(path);
-
 }

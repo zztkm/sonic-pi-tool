@@ -6,6 +6,15 @@ use rosc::encoder;
 type OscMsg = Vec<u8>;
 
 
+/// Check if something is listening on the Sonic Pi server's port.
+///
+pub fn server_port_in_use() -> bool {
+    match UdpSocket::bind("127.0.0.1:4557") {
+        Ok(_) => false,
+        Err(_) => true,
+    }
+}
+
 /// Takes a string of Sonic Pi source code and sends it to the Sonic Pi server.
 ///
 pub fn run_code(source: String) {
