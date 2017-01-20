@@ -1,7 +1,8 @@
 #[macro_use]
 extern crate clap;
-
 use clap::{App, AppSettings, SubCommand};
+
+extern crate lib;
 
 fn main() {
     let cli_app = App::new("sonic-pi-tool")
@@ -9,13 +10,14 @@ fn main() {
         .setting(AppSettings::SubcommandRequired)
         .version(crate_version!());
 
-    let add_subcommand = SubCommand::with_name("eval")
-        .about("Takes Sonic Pi code from STDIN and sends it to the server");
+    let eval_stdin_cmd = SubCommand::with_name("eval-stdin")
+        .about("Reads Sonic Pi code from stdin and sends it to the server");
 
-    let matches = cli_app.subcommand(add_subcommand).get_matches();
+    let matches = cli_app.subcommand(eval_stdin_cmd)
+        .get_matches();
 
     match matches.subcommand_name() {
-        Some("eval") => println!("Eval time!"),
+        Some("eval-stdin") => lib::eval_stdin(),
         _ => panic!("This should be unreachable."),
     }
 }
