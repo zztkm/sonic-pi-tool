@@ -1,0 +1,17 @@
+[package]
+name = "sonic-pi-tool"
+version = "0.1.0"
+authors = ["Louis Pilfold <louis@lpil.uk>"]
+
+[lib]
+name = "lib"
+path = "src/lib.rs"
+
+[[bin]]
+name = "sonic-pi-tool"
+path = "src/main.rs"
+
+[dependencies]
+rosc = "~0.1"
+lazy_static = "0.1.*"
+clap = "~2.20"
