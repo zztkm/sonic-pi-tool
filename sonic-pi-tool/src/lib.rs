@@ -9,3 +9,7 @@ pub fn eval_stdin() {
     io::stdin().read_to_string(&mut input).unwrap();
     server::run_code(input);
 }
+
+pub fn stop() {
+    server::stop_all_jobs();
+}

@@ -10,14 +10,19 @@ fn main() {
         .setting(AppSettings::SubcommandRequired)
         .version(crate_version!());
 
-    let eval_stdin_cmd = SubCommand::with_name("eval-stdin")
+    let eval_stdin = SubCommand::with_name("eval-stdin")
         .about("Reads Sonic Pi code from stdin and sends it to the server");
 
-    let matches = cli_app.subcommand(eval_stdin_cmd)
+    let stop = SubCommand::with_name("stop")
+        .about("Stops all currently playing music on the server");
+
+    let matches = cli_app.subcommand(eval_stdin)
+        .subcommand(stop)
         .get_matches();
 
     match matches.subcommand_name() {
         Some("eval-stdin") => lib::eval_stdin(),
+        Some("stop") => lib::stop(),
         _ => panic!("This should be unreachable."),
     }
 }
