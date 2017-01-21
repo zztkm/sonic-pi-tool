@@ -8,6 +8,7 @@ fn main() {
     let cli_app = App::new("sonic-pi-tool")
         .author("Louis Pilfold <louis@lpil.uk>")
         .setting(AppSettings::SubcommandRequiredElseHelp)
+        .setting(AppSettings::ColoredHelp)
         .version(crate_version!());
 
     let check = SubCommand::with_name("check")
