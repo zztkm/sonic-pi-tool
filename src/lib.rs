@@ -28,6 +28,13 @@ pub fn eval_file(path: String) {
     }
 }
 
+/// Take some code and send to Sonic Pi Server
+///
+pub fn eval(code: String) {
+    server::run_code(code);
+}
+
+
 /// Check if something is listening on the Sonic Pi server's port.
 /// If something is we can probably assume that it's the Sonic Pi Server,
 /// so siginify this to the user.
