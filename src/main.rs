@@ -7,7 +7,7 @@ extern crate lib;
 fn main() {
     let cli_app = App::new("sonic-pi-tool")
         .author("Louis Pilfold <louis@lpil.uk>")
-        .setting(AppSettings::SubcommandRequired)
+        .setting(AppSettings::SubcommandRequiredElseHelp)
         .version(crate_version!());
 
     let check = SubCommand::with_name("check")
