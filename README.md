@@ -17,13 +17,13 @@ If you have the [Rust programming language][rust-install] installed Sonic Pi
 Tool can be installed like so:
 
 ```sh
-cargo install https://github.com/lpil/sonic-pi-tool/
+cargo install --git https://github.com/lpil/sonic-pi-tool/
 ```
 
 To upgrade to a newer version use the `--force` flag.
 
 ```sh
-cargo install https://github.com/lpil/sonic-pi-tool/ --force
+cargo install --git https://github.com/lpil/sonic-pi-tool/ --force
 ```
 
 [rust-install]: https://www.rust-lang.org/en-US/install.html
