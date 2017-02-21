@@ -139,3 +139,6 @@ In addition to `sonic-pi-tool` this project contains `sonic-pi-pipe` and
 Read more about these tools [here][old].
 
 [old]: https://github.com/lpil/sonic-pi-tool/tree/master/old
+
+
+## MPL 2.0 Licence
