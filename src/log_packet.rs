@@ -1,15 +1,17 @@
 use rosc::{OscPacket, OscType, OscMessage};
+use ansi_term::Colour::{Black, Red, Blue, Purple, Yellow, Green};
+use std::string::ToString;
 
 pub fn to_log_string(packet: OscPacket) -> String {
     match packet {
         OscPacket::Message(msg) => {
-            // println!("{:?}", msg);
             let log = match msg.addr.as_ref() {
                 "/log/info" => format_log_info(msg),
                 "/info" => format_log_info(msg),
                 "/error" => format_error(msg),
                 "/syntax_error" => format_syntax_error(msg),
                 "/multi_message" => format_multi_message(msg),
+                "/log/multi_message" => format_multi_message(msg),
                 _ => None,
             };
             log.unwrap_or("".to_string())
@@ -66,8 +68,26 @@ impl Message {
         }
     }
 
+    // msg_type to colour according to Sonic Pi GUI
+    // 0:     fg deeppink
+    // 1:     fg dodgerblue
+    // 2:     fg darkorange
+    // 3:     fg red
+    // 4:     fg white      bg deeppink
+    // 5:     fg white      bg dodgerblue
+    // 6:     fg white      bg darkorange
+    // other: fg green
     pub fn write_str(&self, buffer: &mut String) {
-        buffer.push_str(&self.info);
+        match self.msg_type {
+            0 => buffer.push_str(&format!("{}", Purple.paint(self.info.clone()))),
+            1 => buffer.push_str(&format!("{}", Blue.paint(self.info.clone()))),
+            2 => buffer.push_str(&format!("{}", Yellow.paint(self.info.clone()))),
+            3 => buffer.push_str(&format!("{}", Red.paint(self.info.clone()))),
+            4 => buffer.push_str(&format!("{}", Black.on(Purple).paint(self.info.clone()))),
+            5 => buffer.push_str(&format!("{}", Black.on(Blue).paint(self.info.clone()))),
+            6 => buffer.push_str(&format!("{}", Black.on(Yellow).paint(self.info.clone()))),
+            _ => buffer.push_str(&format!("{}", Green.paint(self.info.clone()))),
+        }
     }
 }
 
@@ -167,6 +187,23 @@ mod tests {
     }
 
     #[test]
+    fn log_multi_message_no_msgs_test() {
+        let job_id = OscType::Int(2);
+        let thread_name = OscType::String("name".to_string());
+        let runtime = OscType::String("1293.1".to_string());
+        let num_msgs = OscType::Int(0);
+        let msg = OscPacket::Message(OscMessage {
+            addr: "/log/multi_message".to_string(),
+            args: Some(vec![job_id, thread_name, runtime, num_msgs]),
+        });
+        let expected = "[Run 2, Time 1293.1]\n".to_string();
+        let output = to_log_string(msg);
+        println!("expected:{}", expected);
+        println!("actual:{}", output);
+        assert_eq!(expected, output);
+    }
+
+    #[test]
     fn multi_message_one_msgs_test() {
         let job_id = OscType::Int(2);
         let thread_name = OscType::String("name".to_string());
@@ -178,9 +215,10 @@ mod tests {
             addr: "/multi_message".to_string(),
             args: Some(vec![job_id, thread_name, runtime, num_msgs, msg1_type, msg1_info]),
         });
-        let expected = r#"[Run 2, Time 1293.1]
- └ synth :beep
-"#
+        let expected = format!(r#"[Run 2, Time 1293.1]
+ └ {}
+"#,
+                               Purple.paint("synth :beep"))
             .to_string();
         let output = to_log_string(msg);
         println!("expected:{}", expected);
@@ -196,7 +234,7 @@ mod tests {
         let num_msgs = OscType::Int(2);
         let msg1_type = OscType::Int(0);
         let msg1_info = OscType::String("synth :beep".to_string());
-        let msg2_type = OscType::Int(1);
+        let msg2_type = OscType::Int(11);
         let msg2_info = OscType::String("synth :boop".to_string());
         let msg = OscPacket::Message(OscMessage {
             addr: "/multi_message".to_string(),
@@ -209,10 +247,12 @@ mod tests {
                             msg2_type,
                             msg2_info]),
         });
-        let expected = r#"[Run 2, Time 1293.1]
- ├ synth :beep
- └ synth :boop
-"#
+        let expected = format!(r#"[Run 2, Time 1293.1]
+ ├ {}
+ └ {}
+"#,
+                               Purple.paint("synth :beep"),
+                               Green.paint("synth :boop"))
             .to_string();
         let output = to_log_string(msg);
         println!("expected:{}", expected);

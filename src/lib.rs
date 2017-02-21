@@ -1,5 +1,6 @@
 extern crate rosc;
 extern crate nix;
+extern crate ansi_term;
 
 use std::process;
 use std::path::Path;
