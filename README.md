@@ -37,8 +37,9 @@ Other installation methods will (hopefully) come at a later date.
 - [eval](#eval)
 - [eval-file](#eval-file)
 - [eval-stdin](#eval-stdin)
-- [logs](#logs)
 - [stop](#stop)
+- [logs](#logs)
+- [start-server](#start-server)
 
 ### `check`
 
@@ -86,7 +87,7 @@ Read Sonic Pi code from standard in and send it to the Sonic Pi server to be
 played.
 
 
-### `logs`
+### `stop`
 
 Stop all jobs running on the Sonic Pi server, stopping the music.
 
@@ -96,7 +97,7 @@ sonic-pi-tool stop
 ```
 
 
-### `stop`
+### `logs`
 
 Prints out log messages emitted by the Sonic Pi server.
 
@@ -111,6 +112,21 @@ sonic-pi-tool logs
 #
 # [Run 2, Time 32.8]
 #  └ synth :beep, {note: 39.0, release: 0.1, amp: 0.9727}
+```
+
+
+### `start-server`
+
+Attempts start the Sonic Pi server, if the executable can be found.
+
+Not supported on Windows.
+
+```sh
+sonic-pi-tool start-server
+# Sonic Pi server booting...
+# Using protocol: udp
+# Detecting port numbers...
+# ...
 ```
 
 

@@ -1,6 +1,10 @@
 extern crate rosc;
+extern crate nix;
 
 use std::process;
+use std::path::Path;
+use std::ffi::CString;
+use nix::unistd::execv;
 
 mod server;
 mod file;
@@ -81,4 +85,16 @@ pub fn logs() {
         }
         Ok(()) => (),
     };
+}
+
+
+/// Find the Sonic Pi server executable and run it. If it can be found.
+///
+pub fn start_server() {
+    let path = "/Applications/Sonic Pi.app/server/bin/sonic-pi-server.rb";
+    if Path::new(path).exists() {
+        execv(&CString::new(path).unwrap(), &vec![]).expect(&format!("Unable to start {}", path));
+    }
+    println!("I couldn't find the Sonic Pi server executable :(");
+    process::exit(1);
 }

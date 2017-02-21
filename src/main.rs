@@ -31,6 +31,9 @@ fn main() {
             .required(true)
             .index(1));
 
+    let start_server = SubCommand::with_name("start-server")
+        .about("Find and start the Sonic Pi server");
+
     let stop = SubCommand::with_name("stop")
         .about("Stops all currently playing music on the server");
 
@@ -43,6 +46,7 @@ fn main() {
         .subcommand(eval)
         .subcommand(eval_stdin)
         .subcommand(eval_file)
+        .subcommand(start_server)
         .get_matches();
 
     match matches.subcommand_name() {
@@ -51,6 +55,7 @@ fn main() {
         Some("eval") => do_eval(matches),
         Some("eval-file") => do_eval_file(matches),
         Some("eval-stdin") => lib::eval_stdin(),
+        Some("start-server") => lib::start_server(),
         Some("logs") => lib::logs(),
         _ => panic!("This should be unreachable."),
     }
