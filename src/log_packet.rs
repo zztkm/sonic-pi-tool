@@ -139,8 +139,6 @@ impl MultiMessage {
     }
 
     pub fn format(&self) -> String {
-        // TODO: Use a buffer with a fmt method instead of pushing to string.
-        // This will remove intemediate allocations and clean this up a little.
         let mut buffer = String::new();
         buffer.push_str(&format!("[Run {}, Time {}]", self.job_id, self.runtime));
 
