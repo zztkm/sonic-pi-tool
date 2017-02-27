@@ -6,15 +6,14 @@ pub fn to_log_string(packet: OscPacket) -> String {
     match packet {
         OscPacket::Message(msg) => {
             let log = match msg.addr.as_ref() {
-                "/log/info" => format_log_info(msg),
-                "/info" => format_log_info(msg),
+                "/log/info" | "/info" => format_log_info(msg),
+                "/log/multi_message" |
+                "/multi_message" => format_multi_message(msg),
                 "/error" => format_error(msg),
                 "/syntax_error" => format_syntax_error(msg),
-                "/multi_message" => format_multi_message(msg),
-                "/log/multi_message" => format_multi_message(msg),
                 _ => None,
             };
-            log.unwrap_or("".to_string())
+            log.unwrap_or_else(String::new)
         }
         OscPacket::Bundle(_bundle) => "".to_string(),
     }
@@ -39,8 +38,8 @@ fn format_string_arg<F>(msg: OscMessage, index: usize, fmt: F) -> Option<String>
     msg.args
         .as_ref()
         .and_then(|args| args.get(index))
-        .and_then(|e| match e {
-            &OscType::String(ref string) => Some(fmt(string)),
+        .and_then(|e| match *e {
+            OscType::String(ref string) => Some(fmt(string)),
             _ => None,
         })
 }
@@ -145,15 +144,15 @@ impl MultiMessage {
         match self.messages.len() {
             0 => (),
             1 => {
-                buffer.push_str(&format!("\n └ "));
+                buffer.push_str("\n └ ");
                 self.messages[0].write_str(&mut buffer);
             }
             n => {
                 for i in 0..(n - 1) {
-                    buffer.push_str(&format!("\n ├ "));
+                    buffer.push_str("\n ├ ");
                     self.messages[i].write_str(&mut buffer);
                 }
-                buffer.push_str(&format!("\n └ "));
+                buffer.push_str("\n └ ");
                 self.messages[n - 1].write_str(&mut buffer);
             }
         }

@@ -52,8 +52,8 @@ fn main() {
     match matches.subcommand_name() {
         Some("stop") => lib::stop(),
         Some("check") => lib::check(),
-        Some("eval") => do_eval(matches),
-        Some("eval-file") => do_eval_file(matches),
+        Some("eval") => do_eval(&matches),
+        Some("eval-file") => do_eval_file(&matches),
         Some("eval-stdin") => lib::eval_stdin(),
         Some("start-server") => lib::start_server(),
         Some("logs") => lib::logs(),
@@ -61,7 +61,7 @@ fn main() {
     }
 }
 
-fn do_eval_file(matches: clap::ArgMatches) {
+fn do_eval_file(matches: &clap::ArgMatches) {
     let path = matches.subcommand_matches("eval-file")
         .unwrap()
         .value_of("PATH")
@@ -70,7 +70,7 @@ fn do_eval_file(matches: clap::ArgMatches) {
     lib::eval_file(path);
 }
 
-fn do_eval(matches: clap::ArgMatches) {
+fn do_eval(matches: &clap::ArgMatches) {
     let code = matches.subcommand_matches("eval")
         .unwrap()
         .value_of("CODE")
