@@ -4,8 +4,6 @@ use rosc;
 use rosc::{encoder, OscPacket, OscMessage, OscType};
 use super::log_packet;
 
-type OscMsg = Vec<u8>;
-
 pub enum FollowLogError {
     AddrInUse,
     ReceiveFail(String),
@@ -32,7 +30,7 @@ pub fn run_code(source: String) {
         args: Some(vec![client_name, osc_source]),
     });
     let msg_buf = encoder::encode(msg).unwrap();
-    send(msg_buf);
+    send(&msg_buf);
 }
 
 
@@ -46,7 +44,7 @@ pub fn stop_all_jobs() {
         args: Some(vec![client_name]),
     });
     let msg_buf = encoder::encode(msg).unwrap();
-    send(msg_buf);
+    send(&msg_buf);
 }
 
 pub fn follow_logs() -> Result<(), FollowLogError> {
@@ -76,10 +74,10 @@ pub fn follow_logs() -> Result<(), FollowLogError> {
 /// We don't expect to recieve anything, so we bind to 0.0.0.0:0, which prompts
 /// the OS to assign us an arbitrary unused port.
 ///
-fn send(msg: OscMsg) {
+fn send(msg: &[u8]) {
     let localhost = net::Ipv4Addr::new(127, 0, 0, 1);
     let s_pi_addr = net::SocketAddrV4::new(localhost, 4557);
 
     let socket = UdpSocket::bind("0.0.0.0:0").unwrap();
-    socket.send_to(&msg, s_pi_addr).unwrap();
+    socket.send_to(msg, s_pi_addr).unwrap();
 }

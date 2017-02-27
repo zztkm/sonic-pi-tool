@@ -67,7 +67,7 @@ fn do_eval_file(matches: &clap::ArgMatches) {
         .value_of("PATH")
         .unwrap()
         .to_string();
-    lib::eval_file(path);
+    lib::eval_file(&path);
 }
 
 fn do_eval(matches: &clap::ArgMatches) {

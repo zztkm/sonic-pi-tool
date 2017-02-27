@@ -24,7 +24,7 @@ pub fn eval_stdin() {
 
 /// Read code from a file and send to Sonic Pi Server.
 ///
-pub fn eval_file(path: String) {
+pub fn eval_file(path: &str) {
     match file::read(path) {
         Ok(code) => server::run_code(code),
         Err(msg) => {

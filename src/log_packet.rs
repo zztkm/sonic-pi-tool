@@ -6,33 +6,33 @@ pub fn to_log_string(packet: OscPacket) -> String {
     match packet {
         OscPacket::Message(msg) => {
             let log = match msg.addr.as_ref() {
-                "/log/info" | "/info" => format_log_info(msg),
                 "/log/multi_message" |
                 "/multi_message" => format_multi_message(msg),
-                "/error" => format_error(msg),
-                "/syntax_error" => format_syntax_error(msg),
+                "/log/info" | "/info" => format_log_info(&msg),
+                "/error" => format_error(&msg),
+                "/syntax_error" => format_syntax_error(&msg),
                 _ => None,
             };
             log.unwrap_or_else(String::new)
         }
-        OscPacket::Bundle(_bundle) => "".to_string(),
+        OscPacket::Bundle(_bundle) => String::new(),
     }
 }
 
-fn format_log_info(msg: OscMessage) -> Option<String> {
+fn format_log_info(msg: &OscMessage) -> Option<String> {
     format_string_arg(msg, 1, |e| format!("=> {}\n", e))
 }
 
-fn format_error(msg: OscMessage) -> Option<String> {
+fn format_error(msg: &OscMessage) -> Option<String> {
     format_string_arg(msg, 1, |e| format!("Runtime Error: {}\n\n", e))
 }
 
-fn format_syntax_error(msg: OscMessage) -> Option<String> {
+fn format_syntax_error(msg: &OscMessage) -> Option<String> {
     format_string_arg(msg, 1, |e| format!("Syntax Error: {}\n\n", e))
 }
 
 
-fn format_string_arg<F>(msg: OscMessage, index: usize, fmt: F) -> Option<String>
+fn format_string_arg<F>(msg: &OscMessage, index: usize, fmt: F) -> Option<String>
     where F: Fn(&String) -> String
 {
     msg.args
