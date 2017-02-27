@@ -98,36 +98,28 @@ struct MultiMessage {
     messages: Vec<Message>,
 }
 
-// TODO: Make more concise.
 impl MultiMessage {
     pub fn new(msg: OscMessage) -> Option<MultiMessage> {
-        let args = match msg.args {
-            Some(a) => a,
+        let mut args = match msg.args {
+            Some(a) => a.into_iter(),
             _ => return None,
         };
-        let job_id = match args.get(0) {
-            Some(&OscType::Int(i)) => i,
-            _ => return None,
-        };
-        let thread_name = match args.get(1) {
-            Some(&OscType::String(ref s)) => s,
-            _ => return None,
-        };
-        let runtime = match args.get(2) {
-            Some(&OscType::String(ref s)) => s,
-            _ => return None,
-        };
-        let num_msgs = match args.get(3) {
-            Some(&OscType::Int(i)) => i,
-            _ => return None,
-        };
+        let (job_id, thread_name, runtime, num_msgs) =
+            match (args.next(), args.next(), args.next(), args.next()) {
+                (Some(OscType::Int(job)),
+                 Some(OscType::String(thread)),
+                 Some(OscType::String(runtime)),
+                 Some(OscType::Int(num_msgs))) => (job, thread, runtime, num_msgs),
+                _ => return None,
+            };
+
         let mut messages = Vec::with_capacity(num_msgs as usize);
-        for i in 0..num_msgs {
-            let index = (4 + i * 2) as usize;
-            if let Some(msg) = Message::new(&args[index], &args[index + 1]) {
+        while let (Some(msg_type), Some(info)) = (args.next(), args.next()) {
+            if let Some(msg) = Message::new(&msg_type, &info) {
                 messages.push(msg);
             }
         }
+
         let multi = MultiMessage {
             job_id: job_id,
             thread_name: thread_name.to_string(),
