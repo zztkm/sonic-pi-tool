@@ -134,8 +134,11 @@ sonic-pi-tool start-server
 ## Other tools
 
 In addition to `sonic-pi-tool` this project contains `sonic-pi-pipe` and
-`sonic-pi-logs`. These two programs came first and are written in Go. Once
-`sonic-pi-tool` has feature parity with them they will be deprecated.
+`sonic-pi-logs`. These two programs came first and are written in Go rather
+than Rust.
+
+Everything they can do can be done with the newer `sonic-pi-tool`, and as a
+result they are no longer actively maintained. :)
 
 Read more about these tools [here][old].
 
