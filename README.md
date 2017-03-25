@@ -8,6 +8,7 @@ server. It can be used instead of the Sonic Pi GUI for all your music making
 needs :)
 
 It's ideal for use with [sonicpi.vim][sonicpi.vim].
+
 [sonicpi.vim]: https://github.com/dermusikman/sonicpi.vim
 
 
