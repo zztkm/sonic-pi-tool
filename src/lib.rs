@@ -93,7 +93,8 @@ pub fn logs() {
 ///
 pub fn start_server() {
     let paths = ["/Applications/Sonic Pi.app/server/bin/sonic-pi-server.rb",
-                 "./app/server/bin/sonic-pi-server.rb", "/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb"];
+                 "./app/server/bin/sonic-pi-server.rb",
+                 "/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb"];
 
     match paths.iter().find(|&&p| Path::new(p).exists()) {
         Some(p) => {
