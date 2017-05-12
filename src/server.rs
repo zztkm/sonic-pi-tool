@@ -1,14 +1,13 @@
 use std::net::UdpSocket;
 use std::net;
 use rosc;
-use rosc::{encoder, OscPacket, OscMessage, OscType};
+use rosc::{encoder, OscMessage, OscPacket, OscType};
 use super::log_packet;
 
 pub enum FollowLogError {
     AddrInUse,
     ReceiveFail(String),
 }
-
 
 /// Check if something is listening on the Sonic Pi server's port.
 ///
@@ -32,7 +31,6 @@ pub fn run_code(source: String) {
     let msg_buf = encoder::encode(msg).unwrap();
     send(&msg_buf);
 }
-
 
 /// Instuct the Sonic Pi server to stop playing.
 ///

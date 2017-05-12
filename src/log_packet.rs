@@ -1,13 +1,12 @@
-use rosc::{OscPacket, OscType, OscMessage};
-use ansi_term::Colour::{Black, Red, Blue, Purple, Yellow, Green};
+use rosc::{OscMessage, OscPacket, OscType};
+use ansi_term::Colour::{Black, Blue, Green, Purple, Red, Yellow};
 use std::string::ToString;
 
 pub fn to_log_string(packet: OscPacket) -> String {
     match packet {
         OscPacket::Message(msg) => {
             let log = match msg.addr.as_ref() {
-                "/log/multi_message" |
-                "/multi_message" => format_multi_message(msg),
+                "/log/multi_message" | "/multi_message" => format_multi_message(msg),
                 "/log/info" | "/info" => format_log_info(&msg),
                 "/error" => format_error(&msg),
                 "/syntax_error" => format_syntax_error(&msg),
@@ -30,7 +29,6 @@ fn format_error(msg: &OscMessage) -> Option<String> {
 fn format_syntax_error(msg: &OscMessage) -> Option<String> {
     format_string_arg(msg, 1, |e| format!("Syntax Error: {}\n\n", e))
 }
-
 
 fn format_string_arg<F>(msg: &OscMessage, index: usize, fmt: F) -> Option<String>
 where
@@ -58,12 +56,10 @@ struct Message {
 impl Message {
     pub fn new(msg_type: &OscType, info: &OscType) -> Option<Message> {
         match (msg_type, info) {
-            (&OscType::Int(i), &OscType::String(ref s)) => {
-                Some(Message {
-                    msg_type: i,
-                    info: s.to_string(),
-                })
-            }
+            (&OscType::Int(i), &OscType::String(ref s)) => Some(Message {
+                msg_type: i,
+                info: s.to_string(),
+            }),
             _ => None,
         }
     }
@@ -107,10 +103,12 @@ impl MultiMessage {
         };
         let (job_id, thread_name, runtime, num_msgs) =
             match (args.next(), args.next(), args.next(), args.next()) {
-                (Some(OscType::Int(job)),
-                 Some(OscType::String(thread)),
-                 Some(OscType::String(runtime)),
-                 Some(OscType::Int(num_msgs))) => (job, thread, runtime, num_msgs),
+                (
+                    Some(OscType::Int(job)),
+                    Some(OscType::String(thread)),
+                    Some(OscType::String(runtime)),
+                    Some(OscType::Int(num_msgs)),
+                ) => (job, thread, runtime, num_msgs),
                 _ => return None,
             };
 
@@ -156,7 +154,7 @@ impl MultiMessage {
 
 #[cfg(test)]
 mod tests {
-    use rosc::{OscPacket, OscMessage, OscType};
+    use rosc::{OscMessage, OscPacket, OscType};
     use super::*;
 
     #[test]
@@ -283,11 +281,9 @@ mod tests {
     fn error_test() {
         let error_txt = r#"[]
 Thread death +--&gt; :live_loop_no_sleep_loop
- Live loop :no_sleep_loop did not sleep!"#
-            .to_string();
+ Live loop :no_sleep_loop did not sleep!"#.to_string();
         let backtrace = r#"lang/thing.rb:3442:in `block in out_thread&#39;
-lang/core.rb:2863:in `block in in_thread&#39;"#
-            .to_string();
+lang/core.rb:2863:in `block in in_thread&#39;"#.to_string();
         let msg = OscPacket::Message(OscMessage {
             addr: "/error".to_string(),
             args: Some(vec![
@@ -316,8 +312,8 @@ Thread death +--&gt; :live_loop_no_sleep_loop
                 OscType::Int(1),
             ]),
         });
-        let expected = "Syntax Error: a.rb:1: syntax error, unexpected end-of-input\n\n"
-            .to_string();
+        let expected =
+            "Syntax Error: a.rb:1: syntax error, unexpected end-of-input\n\n".to_string();
         assert_eq!(expected, to_log_string(msg));
     }
 }

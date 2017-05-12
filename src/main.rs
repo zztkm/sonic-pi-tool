@@ -11,9 +11,8 @@ fn main() {
         .setting(AppSettings::ColoredHelp)
         .version(crate_version!());
 
-    let check = SubCommand::with_name("check").about(
-        "Check if the Sonic Pi server is listening on port 4557",
-    );
+    let check = SubCommand::with_name("check")
+        .about("Check if the Sonic Pi server is listening on port 4557");
 
     let eval = SubCommand::with_name("eval")
         .about("Takes a string of Sonic Pi code and sends it to the server")
@@ -24,9 +23,8 @@ fn main() {
                 .index(1),
         );
 
-    let eval_stdin = SubCommand::with_name("eval-stdin").about(
-        "Reads Sonic Pi code from stdin and sends it to the server",
-    );
+    let eval_stdin = SubCommand::with_name("eval-stdin")
+        .about("Reads Sonic Pi code from stdin and sends it to the server");
 
     let eval_file = SubCommand::with_name("eval-file")
         .about("Reads Sonic Pi code from a file and sends it to the server")
@@ -75,7 +73,7 @@ fn main() {
         Some("start-server") => lib::start_server(),
         Some("logs") => lib::logs(),
         Some("record") => do_record(&matches),
-        _ => panic!("This should be unreachable."),
+        _ => panic!("Unrecognised subcommand"), // This _should_ be unreachable
     }
 }
 

@@ -1,17 +1,16 @@
-extern crate rosc;
-extern crate nix;
 extern crate ansi_term;
+extern crate nix;
+extern crate rosc;
 
-use std::process;
+use std::{env, process};
 use std::path::Path;
 use std::ffi::CString;
+use std::io::{self, Read};
 use nix::unistd::execv;
 
 mod server;
 mod file;
 mod log_packet;
-
-use std::io::{self, Read};
 
 /// Read code from STDIN and send to Sonic Pi Server.
 ///
@@ -20,7 +19,6 @@ pub fn eval_stdin() {
     io::stdin().read_to_string(&mut input).unwrap();
     server::run_code(input);
 }
-
 
 /// Read code from a file and send to Sonic Pi Server.
 ///
@@ -40,7 +38,6 @@ pub fn eval(code: String) {
     server::run_code(code);
 }
 
-
 /// Check if something is listening on the Sonic Pi server's port.
 /// If something is we can probably assume that it's the Sonic Pi Server,
 /// so siginify this to the user.
@@ -55,13 +52,11 @@ pub fn check() {
     }
 }
 
-
 /// Instuct the Sonic Pi server to stop playing.
 ///
 pub fn stop() {
     server::stop_all_jobs();
 }
-
 
 // TODO: Colour the word "error:"
 const ADDR_IN_USE_MSG: &'static str =
@@ -88,20 +83,30 @@ pub fn logs() {
     };
 }
 
-
 /// Find the Sonic Pi server executable and run it. If it can be found.
 ///
 pub fn start_server() {
-    let paths = [
-        "/Applications/Sonic Pi.app/server/bin/sonic-pi-server.rb",
-        "./app/server/bin/sonic-pi-server.rb",
-        "/opt/sonic-pi/app/server/bin/sonic-pi-server.rb",
-        "/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb",
+    let mut paths = vec![
+        String::from("/Applications/Sonic Pi.app/server/bin/sonic-pi-server.rb"),
+        String::from("./app/server/bin/sonic-pi-server.rb"),
+        String::from("/opt/sonic-pi/app/server/bin/sonic-pi-server.rb"),
+        String::from("/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb"),
     ];
 
-    match paths.iter().find(|&&p| Path::new(p).exists()) {
+    match env::home_dir() {
+        Some(home_directory) => {
+            let suffix = "Applications/Sonic Pi.app//server/bin/sonic-pi-server.rb";
+            let home = format!("{}/{}", home_directory.to_str().unwrap(), suffix);
+
+            paths.insert(0, String::from(home));
+        }
+        None => {}
+    };
+
+    match paths.iter().find(|ref p| Path::new(&p).exists()) {
         Some(p) => {
-            execv(&CString::new(*p).unwrap(), &[]).expect(&format!("Unable to start {}", *p))
+            let cmd = &CString::new(p.clone()).unwrap();
+            execv(cmd, &[]).expect(&format!("Unable to start {}", *p))
         }
         None => {
             println!("I couldn't find the Sonic Pi server executable :(");
