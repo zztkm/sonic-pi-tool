@@ -92,10 +92,12 @@ pub fn logs() {
 /// Find the Sonic Pi server executable and run it. If it can be found.
 ///
 pub fn start_server() {
-    let paths = ["/Applications/Sonic Pi.app/server/bin/sonic-pi-server.rb",
-                 "./app/server/bin/sonic-pi-server.rb",
-                 "/opt/sonic-pi/app/server/bin/sonic-pi-server.rb",
-                 "/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb"];
+    let paths = [
+        "/Applications/Sonic Pi.app/server/bin/sonic-pi-server.rb",
+        "./app/server/bin/sonic-pi-server.rb",
+        "/opt/sonic-pi/app/server/bin/sonic-pi-server.rb",
+        "/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb",
+    ];
 
     match paths.iter().find(|&&p| Path::new(p).exists()) {
         Some(p) => {

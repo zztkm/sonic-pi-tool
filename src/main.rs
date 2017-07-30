@@ -11,25 +11,31 @@ fn main() {
         .setting(AppSettings::ColoredHelp)
         .version(crate_version!());
 
-    let check = SubCommand::with_name("check")
-        .about("Check if the Sonic Pi server is listening on port 4557");
+    let check = SubCommand::with_name("check").about(
+        "Check if the Sonic Pi server is listening on port 4557",
+    );
 
     let eval = SubCommand::with_name("eval")
         .about("Takes a string of Sonic Pi code and sends it to the server")
-        .arg(Arg::with_name("CODE")
-                 .help("A string of Sonic Pi code")
-                 .required(true)
-                 .index(1));
+        .arg(
+            Arg::with_name("CODE")
+                .help("A string of Sonic Pi code")
+                .required(true)
+                .index(1),
+        );
 
-    let eval_stdin = SubCommand::with_name("eval-stdin")
-        .about("Reads Sonic Pi code from stdin and sends it to the server");
+    let eval_stdin = SubCommand::with_name("eval-stdin").about(
+        "Reads Sonic Pi code from stdin and sends it to the server",
+    );
 
     let eval_file = SubCommand::with_name("eval-file")
         .about("Reads Sonic Pi code from a file and sends it to the server")
-        .arg(Arg::with_name("PATH")
-                 .help("Path to the file of Sonic Pi code")
-                 .required(true)
-                 .index(1));
+        .arg(
+            Arg::with_name("PATH")
+                .help("Path to the file of Sonic Pi code")
+                .required(true)
+                .index(1),
+        );
 
     let start_server =
         SubCommand::with_name("start-server").about("Find and start the Sonic Pi server");
