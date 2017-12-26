@@ -59,7 +59,7 @@ pub fn stop() {
 }
 
 // TODO: Colour the word "error:"
-const ADDR_IN_USE_MSG: &'static str =
+const ADDR_IN_USE_MSG: &str =
     r#"error: Unable to listen for Sonic Pi server logs, address already in use.
 
 This may because the Sonic Pi GUI is running and already listening on the desired port.
@@ -93,17 +93,14 @@ pub fn start_server() {
         String::from("/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb"),
     ];
 
-    match env::home_dir() {
-        Some(home_directory) => {
-            let suffix = "Applications/Sonic Pi.app//server/bin/sonic-pi-server.rb";
-            let home = format!("{}/{}", home_directory.to_str().unwrap(), suffix);
+    if let Some(home_directory) = env::home_dir() {
+        let suffix = "Applications/Sonic Pi.app//server/bin/sonic-pi-server.rb";
+        let home = format!("{}/{}", home_directory.to_str().unwrap(), suffix);
 
-            paths.insert(0, String::from(home));
-        }
-        None => {}
+        paths.insert(0, home);
     };
 
-    match paths.iter().find(|ref p| Path::new(&p).exists()) {
+    match paths.iter().find(|p| Path::new(&p).exists()) {
         Some(p) => {
             let cmd = &CString::new(p.clone()).unwrap();
             execv(cmd, &[]).expect(&format!("Unable to start {}", *p))
