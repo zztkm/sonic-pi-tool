@@ -2,15 +2,15 @@ extern crate ansi_term;
 extern crate nix;
 extern crate rosc;
 
-use std::{env, process};
-use std::path::Path;
+use nix::unistd::execv;
 use std::ffi::CString;
 use std::io::{self, Read};
-use nix::unistd::execv;
+use std::path::Path;
+use std::{env, process};
 
-mod server;
 mod file;
 mod log_packet;
+mod server;
 
 /// Read code from STDIN and send to Sonic Pi Server.
 ///

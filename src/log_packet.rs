@@ -1,5 +1,5 @@
-use rosc::{OscMessage, OscPacket, OscType};
 use ansi_term::Colour::{Black, Blue, Green, Purple, Red, Yellow};
+use rosc::{OscMessage, OscPacket, OscType};
 use std::string::ToString;
 
 pub fn to_log_string(packet: OscPacket) -> String {
@@ -154,8 +154,8 @@ impl MultiMessage {
 
 #[cfg(test)]
 mod tests {
-    use rosc::{OscMessage, OscPacket, OscType};
     use super::*;
+    use rosc::{OscMessage, OscPacket, OscType};
 
     #[test]
     fn multi_message_no_msgs_test() {

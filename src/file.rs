@@ -1,6 +1,6 @@
+use std::error::Error;
 use std::fs::File;
 use std::io::Read;
-use std::error::Error;
 
 type Contents = String;
 type ErrorString = String;

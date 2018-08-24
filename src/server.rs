@@ -1,8 +1,8 @@
-use std::net::UdpSocket;
-use std::net;
+use super::log_packet;
 use rosc;
 use rosc::{encoder, OscMessage, OscPacket, OscType};
-use super::log_packet;
+use std::net;
+use std::net::UdpSocket;
 
 pub enum FollowLogError {
     AddrInUse,
