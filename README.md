@@ -25,7 +25,7 @@ cargo install --git https://github.com/lpil/sonic-pi-tool/ --force
 
 Note that while Rust needs to be installed to compile sonic-pi-tool, it is not 
 needed to run it. You may uninstall Rust or copy the sonic-pi-tool binary from
-`~/.cargo/bin` to another computer with the same processor archetecture and operating 
+`~/.cargo/bin` to another computer with the same processor architecture and operating 
 system if you wish.
 
 [rust-install]: https://www.rust-lang.org/en-US/install.html
