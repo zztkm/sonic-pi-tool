@@ -120,10 +120,10 @@ impl MultiMessage {
         }
 
         let multi = MultiMessage {
-            job_id: job_id,
+            job_id,
             thread_name: thread_name.to_string(),
             runtime: runtime.to_string(),
-            messages: messages,
+            messages,
         };
         Some(multi)
     }
@@ -215,7 +215,8 @@ mod tests {
  └ {}
 "#,
             Purple.paint("synth :beep")
-        ).to_string();
+        )
+        .to_string();
         let output = to_log_string(msg);
         println!("expected:{}", expected);
         println!("actual:{}", output);
@@ -252,7 +253,8 @@ mod tests {
 "#,
             Purple.paint("synth :beep"),
             Green.paint("synth :boop")
-        ).to_string();
+        )
+        .to_string();
         let output = to_log_string(msg);
         println!("expected:{}", expected);
         println!("actual:{}", output);
@@ -281,9 +283,11 @@ mod tests {
     fn error_test() {
         let error_txt = r#"[]
 Thread death +--&gt; :live_loop_no_sleep_loop
- Live loop :no_sleep_loop did not sleep!"#.to_string();
+ Live loop :no_sleep_loop did not sleep!"#
+            .to_string();
         let backtrace = r#"lang/thing.rb:3442:in `block in out_thread&#39;
-lang/core.rb:2863:in `block in in_thread&#39;"#.to_string();
+lang/core.rb:2863:in `block in in_thread&#39;"#
+            .to_string();
         let msg = OscPacket::Message(OscMessage {
             addr: "/error".to_string(),
             args: Some(vec![

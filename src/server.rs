@@ -12,10 +12,7 @@ pub enum FollowLogError {
 /// Check if something is listening on the Sonic Pi server's port.
 ///
 pub fn server_port_in_use() -> bool {
-    match UdpSocket::bind("127.0.0.1:4557") {
-        Ok(_) => false,
-        Err(_) => true,
-    }
+    UdpSocket::bind("127.0.0.1:4557").is_err()
 }
 
 /// Takes a string of Sonic Pi source code and sends it to the Sonic Pi server.
