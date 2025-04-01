@@ -4,6 +4,9 @@ use rosc::{encoder, OscMessage, OscPacket, OscType};
 use std::net;
 use std::net::UdpSocket;
 
+// On Windows, the Sonic Pi server listens on port 4560
+pub const OSC_SERVER_PORT: u16 = 4560;
+
 pub enum FollowLogError {
     AddrInUse,
     ReceiveFail(String),
@@ -12,7 +15,7 @@ pub enum FollowLogError {
 /// Check if something is listening on the Sonic Pi server's port.
 ///
 pub fn server_port_in_use() -> bool {
-    UdpSocket::bind("127.0.0.1:4557").is_err()
+    UdpSocket::bind(format!("127.0.0.1:{}", OSC_SERVER_PORT)).is_err()
 }
 
 /// Takes a string of Sonic Pi source code and sends it to the Sonic Pi server.
@@ -95,14 +98,14 @@ pub fn stop_and_save_recording(path: String) {
 }
 
 /// Send an OSC message to the Sonic Pi server, which is presumed to be
-/// listening on UDP port 4557.
+/// listening on UDP port 4560.
 ///
 /// We don't expect to recieve anything, so we bind to 0.0.0.0:0, which prompts
 /// the OS to assign us an arbitrary unused port.
 ///
 fn send(msg: &[u8]) {
     let localhost = net::Ipv4Addr::new(127, 0, 0, 1);
-    let s_pi_addr = net::SocketAddrV4::new(localhost, 4557);
+    let s_pi_addr = net::SocketAddrV4::new(localhost, OSC_SERVER_PORT);
 
     let socket = UdpSocket::bind("0.0.0.0:0").unwrap();
     socket.send_to(msg, s_pi_addr).unwrap();

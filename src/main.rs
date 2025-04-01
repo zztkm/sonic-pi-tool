@@ -12,7 +12,7 @@ fn main() {
         .version(crate_version!());
 
     let check = SubCommand::with_name("check")
-        .about("Check if the Sonic Pi server is listening on port 4557");
+        .about("Check if the Sonic Pi server is listening on port 4560");
 
     let eval = SubCommand::with_name("eval")
         .about("Takes a string of Sonic Pi code and sends it to the server")
@@ -34,9 +34,6 @@ fn main() {
                 .required(true)
                 .index(1),
         );
-
-    let start_server =
-        SubCommand::with_name("start-server").about("Find and start the Sonic Pi server");
 
     let stop =
         SubCommand::with_name("stop").about("Stops all currently playing music on the server");
@@ -60,7 +57,6 @@ fn main() {
         .subcommand(eval)
         .subcommand(eval_stdin)
         .subcommand(eval_file)
-        .subcommand(start_server)
         .subcommand(record)
         .get_matches();
 
@@ -70,7 +66,6 @@ fn main() {
         Some("eval") => do_eval(&matches),
         Some("eval-file") => do_eval_file(&matches),
         Some("eval-stdin") => lib::eval_stdin(),
-        Some("start-server") => lib::start_server(),
         Some("logs") => lib::logs(),
         Some("record") => do_record(&matches),
         _ => panic!("Unrecognised subcommand"), // This _should_ be unreachable

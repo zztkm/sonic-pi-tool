@@ -1,13 +1,9 @@
 extern crate ansi_term;
-extern crate nix;
 extern crate rosc;
 extern crate dirs;
 
-use nix::unistd::execv;
-use std::ffi::CString;
 use std::io::{self, Read};
-use std::path::Path;
-use std::{process};
+use std::process;
 
 mod file;
 mod log_packet;
@@ -45,10 +41,10 @@ pub fn eval(code: String) {
 ///
 pub fn check() {
     if server::server_port_in_use() {
-        println!("Sonic Pi server listening on port 4557");
+        println!("Sonic Pi server listening on port {}", server::OSC_SERVER_PORT);
         process::exit(0);
     } else {
-        println!("Sonic Pi server NOT listening on port 4557");
+        println!("Sonic Pi server NOT listening on port {}", server::OSC_SERVER_PORT);
         process::exit(1);
     }
 }
@@ -81,39 +77,6 @@ pub fn logs() {
             process::exit(1);
         }
         Ok(()) => (),
-    };
-}
-
-/// Find the Sonic Pi server executable and run it. If it can be found.
-///
-pub fn start_server() {
-    let mut paths = vec![
-        String::from("/Applications/Sonic Pi.app/Contents/Resources/app/server/ruby/bin/sonic-pi-server.rb"),
-        String::from("/Applications/Sonic Pi.app/server/bin/sonic-pi-server.rb"),
-        String::from("/Applications/Sonic Pi.app/server/ruby/bin/sonic-pi-server.rb"),
-        String::from("./app/server/bin/sonic-pi-server.rb"),
-        String::from("/opt/sonic-pi/app/server/bin/sonic-pi-server.rb"),
-        String::from("/usr/lib/sonic-pi/server/bin/sonic-pi-server.rb"),
-        String::from("/opt/sonic-pi/app/server/ruby/bin/sonic-pi-server.rb"),
-        String::from("/usr/lib/sonic-pi/server/ruby/bin/sonic-pi-server.rb"),
-    ];
-
-    if let Some(home_directory) = dirs::home_dir() {
-        let suffix = "Applications/Sonic Pi.app//server/bin/sonic-pi-server.rb";
-        let home = format!("{}/{}", home_directory.to_str().unwrap(), suffix);
-
-        paths.insert(0, home);
-    };
-
-    match paths.iter().find(|p| Path::new(&p).exists()) {
-        Some(p) => {
-            let cmd = &CString::new(p.clone()).unwrap();
-            execv::<CString>(cmd, &[]).unwrap_or_else(|_| panic!("Unable to start {}", *p))
-        }
-        None => {
-            println!("I couldn't find the Sonic Pi server executable :(");
-            process::exit(1);
-        }
     };
 }
 
