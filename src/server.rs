@@ -5,7 +5,8 @@ use std::net;
 use std::net::UdpSocket;
 
 // On Windows, the Sonic Pi server listens on port 4560
-pub const OSC_SERVER_PORT: u16 = 4560;
+pub const SERVER_UDP_PORT: u16 = 37756;
+pub const OSC_MESSAGE_UDP_PORT: u16 = 4560;
 
 pub enum FollowLogError {
     AddrInUse,
@@ -15,18 +16,19 @@ pub enum FollowLogError {
 /// Check if something is listening on the Sonic Pi server's port.
 ///
 pub fn server_port_in_use() -> bool {
-    UdpSocket::bind(format!("127.0.0.1:{}", OSC_SERVER_PORT)).is_err()
+    UdpSocket::bind(format!("127.0.0.1:{}", SERVER_UDP_PORT)).is_err()
 }
 
 /// Takes a string of Sonic Pi source code and sends it to the Sonic Pi server.
 ///
-pub fn run_code(source: String) {
-    let client_name = OscType::String("SONIC_PI_TOOL".to_string());
+pub fn run_code(token: i32, source: String) {
+    let token = OscType::Int(token);
+    // let client_name = OscType::String("SONIC_PI_TOOL".to_string());
     let osc_source = OscType::String(source);
 
     let msg = &OscPacket::Message(OscMessage {
         addr: "/run-code".to_string(),
-        args: Some(vec![client_name, osc_source]),
+        args: Some(vec![token, osc_source]),
     });
     let msg_buf = encoder::encode(msg).unwrap();
     send(&msg_buf);
@@ -105,7 +107,7 @@ pub fn stop_and_save_recording(path: String) {
 ///
 fn send(msg: &[u8]) {
     let localhost = net::Ipv4Addr::new(127, 0, 0, 1);
-    let s_pi_addr = net::SocketAddrV4::new(localhost, OSC_SERVER_PORT);
+    let s_pi_addr = net::SocketAddrV4::new(localhost, SERVER_UDP_PORT);
 
     let socket = UdpSocket::bind("0.0.0.0:0").unwrap();
     socket.send_to(msg, s_pi_addr).unwrap();

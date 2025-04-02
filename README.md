@@ -62,7 +62,7 @@ Homebrew formula is here: [Cj-bc/homebrew-sonic-pi-tool](https://github.com/Cj-b
 
 ```sh
 sonic-pi-tool check
-# => Sonic Pi server listening on port 4557
+# => Sonic Pi server listening on port 4560
 ```
 
 Used to check if the Sonic Pi server is running. If the server isn't running
@@ -172,3 +172,8 @@ Read more about these tools [here][old].
 
 
 ## MPL 2.0 Licence
+
+## References
+
+- https://github.com/gkvoelkl/python-sonic
+  - for Sonic Pi v4

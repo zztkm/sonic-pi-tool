@@ -11,17 +11,17 @@ mod server;
 
 /// Read code from STDIN and send to Sonic Pi Server.
 ///
-pub fn eval_stdin() {
+pub fn eval_stdin(token : i32) {
     let mut input = String::new();
     io::stdin().read_to_string(&mut input).unwrap();
-    server::run_code(input);
+    server::run_code(token, input);
 }
 
 /// Read code from a file and send to Sonic Pi Server.
 ///
-pub fn eval_file(path: &str) {
+pub fn eval_file(token : i32, path: &str) {
     match file::read(path) {
-        Ok(code) => server::run_code(code),
+        Ok(code) => server::run_code(token, code),
         Err(msg) => {
             println!("{}", msg);
             process::exit(1);
@@ -31,8 +31,8 @@ pub fn eval_file(path: &str) {
 
 /// Take some code and send to Sonic Pi Server.
 ///
-pub fn eval(code: String) {
-    server::run_code(code);
+pub fn eval(token : i32, code: String) {
+    server::run_code(token, code);
 }
 
 /// Check if something is listening on the Sonic Pi server's port.
@@ -41,10 +41,10 @@ pub fn eval(code: String) {
 ///
 pub fn check() {
     if server::server_port_in_use() {
-        println!("Sonic Pi server listening on port {}", server::OSC_SERVER_PORT);
+        println!("Sonic Pi server listening on port {}", server::SERVER_UDP_PORT);
         process::exit(0);
     } else {
-        println!("Sonic Pi server NOT listening on port {}", server::OSC_SERVER_PORT);
+        println!("Sonic Pi server NOT listening on port {}", server::SERVER_UDP_PORT);
         process::exit(1);
     }
 }
