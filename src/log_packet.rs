@@ -130,7 +130,10 @@ impl MultiMessage {
 
     pub fn format(&self) -> String {
         let mut buffer = String::new();
-        buffer.push_str(&format!("[Run {}, Thread {}, Time {}]", self.job_id, self.thread_name, self.runtime));
+        buffer.push_str(&format!(
+            "[Run {}, Thread {}, Time {}]",
+            self.job_id, self.thread_name, self.runtime
+        ));
 
         match self.messages.len() {
             0 => (),
