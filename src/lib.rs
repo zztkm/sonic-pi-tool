@@ -1,6 +1,6 @@
 extern crate ansi_term;
-extern crate rosc;
 extern crate dirs;
+extern crate rosc;
 
 use std::io::{self, Read};
 use std::process;
@@ -11,7 +11,7 @@ mod server;
 
 /// Read code from STDIN and send to Sonic Pi Server.
 ///
-pub fn eval_stdin(token : i32) {
+pub fn eval_stdin(token: i32) {
     let mut input = String::new();
     io::stdin().read_to_string(&mut input).unwrap();
     server::run_code(token, input);
@@ -19,7 +19,7 @@ pub fn eval_stdin(token : i32) {
 
 /// Read code from a file and send to Sonic Pi Server.
 ///
-pub fn eval_file(token : i32, path: &str) {
+pub fn eval_file(token: i32, path: &str) {
     match file::read(path) {
         Ok(code) => server::run_code(token, code),
         Err(msg) => {
@@ -31,7 +31,7 @@ pub fn eval_file(token : i32, path: &str) {
 
 /// Take some code and send to Sonic Pi Server.
 ///
-pub fn eval(token : i32, code: String) {
+pub fn eval(token: i32, code: String) {
     server::run_code(token, code);
 }
 
@@ -41,10 +41,16 @@ pub fn eval(token : i32, code: String) {
 ///
 pub fn check() {
     if server::server_port_in_use() {
-        println!("Sonic Pi server listening on port {}", server::SERVER_UDP_PORT);
+        println!(
+            "Sonic Pi server listening on port {}",
+            server::SERVER_UDP_PORT
+        );
         process::exit(0);
     } else {
-        println!("Sonic Pi server NOT listening on port {}", server::SERVER_UDP_PORT);
+        println!(
+            "Sonic Pi server NOT listening on port {}",
+            server::SERVER_UDP_PORT
+        );
         process::exit(1);
     }
 }
@@ -56,8 +62,7 @@ pub fn stop() {
 }
 
 // TODO: Colour the word "error:"
-const ADDR_IN_USE_MSG: &str =
-    r#"error: Unable to listen for Sonic Pi server logs, address already in use.
+const ADDR_IN_USE_MSG: &str = r#"error: Unable to listen for Sonic Pi server logs, address already in use.
 
 This may because the Sonic Pi GUI is running and already listening on the desired port.
 If the GUI is running this command cannot function, try running just the Sonic Pi server."#;

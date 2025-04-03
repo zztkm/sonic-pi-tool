@@ -20,7 +20,7 @@ fn main() {
             Arg::with_name("TOKEN")
                 .help("A token to identify this client")
                 .required(true)
-                .index(1)
+                .index(1),
         )
         .arg(
             Arg::with_name("CODE")
@@ -35,9 +35,8 @@ fn main() {
             Arg::with_name("TOKEN")
                 .help("A token to identify this client")
                 .required(true)
-                .index(1)
+                .index(1),
         );
-
 
     let eval_file = SubCommand::with_name("eval-file")
         .about("Reads Sonic Pi code from a file and sends it to the server")
@@ -45,7 +44,7 @@ fn main() {
             Arg::with_name("TOKEN")
                 .help("A token to identify this client")
                 .required(true)
-                .index(1)
+                .index(1),
         )
         .arg(
             Arg::with_name("PATH")
