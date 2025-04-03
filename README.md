@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/lpil/sonic-pi-tool.svg?branch=master)](https://travis-ci.org/lpil/sonic-pi-tool)
+> [!IMPORTANT]
+> このソフトウェアは https://github.com/lpil/sonic-pi-tool を fork し、改変したものです。
+> 元のソフトウェアのライセンスは MPL 2.0 のため、改変したソフトウェアも同じライセンスになります。
+> 独自に書いた部分もありますが、面倒なので、全体を MPL 2.0 として公開します。
 
 Sonic Pi Tool
 =============
