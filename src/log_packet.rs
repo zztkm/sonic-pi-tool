@@ -56,7 +56,7 @@ struct Message {
 impl Message {
     pub fn new(msg_type: &OscType, info: &OscType) -> Option<Message> {
         match (msg_type, info) {
-            (&OscType::Int(i), &OscType::String(ref s)) => Some(Message {
+            (&OscType::Int(i), OscType::String(s)) => Some(Message {
                 msg_type: i,
                 info: s.to_string(),
             }),
@@ -130,7 +130,7 @@ impl MultiMessage {
 
     pub fn format(&self) -> String {
         let mut buffer = String::new();
-        buffer.push_str(&format!("[Run {}, Time {}]", self.job_id, self.runtime));
+        buffer.push_str(&format!("[Run {}, Thread {}, Time {}]", self.job_id, self.thread_name, self.runtime));
 
         match self.messages.len() {
             0 => (),
@@ -147,7 +147,7 @@ impl MultiMessage {
                 self.messages[n - 1].write_str(&mut buffer);
             }
         }
-        buffer.push_str("\n");
+        buffer.push('\n');
         buffer
     }
 }

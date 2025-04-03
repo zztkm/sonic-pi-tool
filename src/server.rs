@@ -6,7 +6,7 @@ use std::net::UdpSocket;
 
 // On Windows, the Sonic Pi server listens on port 4560
 pub const SERVER_UDP_PORT: u16 = 37756;
-pub const OSC_MESSAGE_UDP_PORT: u16 = 4560;
+// pub const OSC_MESSAGE_UDP_PORT: u16 = 4560;
 
 pub enum FollowLogError {
     AddrInUse,
