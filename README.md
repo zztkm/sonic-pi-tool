@@ -23,7 +23,7 @@ If you have the [Rust programming language][rust-install] installed
 sonic-pi-tool can be installed like so:
 
 ```sh
-cargo install --git https://github.com/lpil/sonic-pi-tool/ --force
+cargo install --git https://github.com/zztkm/sonic-pi-tool/ --force
 ```
 
 Note that while Rust needs to be installed to compile sonic-pi-tool, it is not 
@@ -180,3 +180,8 @@ Read more about these tools [here][old].
 
 - https://github.com/gkvoelkl/python-sonic
   - for Sonic Pi v4
+
+## TODO
+
+- [ ] Read token from `~/.sonic-pi/log/spider.log`
+- [ ] Cleaning up the CLI
