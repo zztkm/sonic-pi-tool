@@ -183,5 +183,6 @@ Read more about these tools [here][old].
 
 ## TODO
 
+- [ ] Update Cargo.toml
 - [ ] Read token from `~/.sonic-pi/log/spider.log`
 - [ ] Cleaning up the CLI
